@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Miami Recommendations from Your Uber Driver</title>
+<style>
+  :root {
+    --bg: #fff8f0;
+    --card: #ffffff;
+    --ink: #1f2a37;
+    --muted: #5b6776;
+    --pink: #ff4f8b;
+    --teal: #00a8a8;
+    --orange: #ff9f43;
+    --radius: 16px;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    line-height: 1.5;
+  }
+  header {
+    background: linear-gradient(135deg, var(--pink), var(--orange));
+    color: #fff;
+    padding: 36px 20px 28px;
+    text-align: center;
+  }
+  header h1 { margin: 0 0 8px; font-size: 1.9rem; }
+  header p { margin: 0; opacity: .95; }
+  nav {
+    position: sticky; top: 0; z-index: 10;
+    display: flex; gap: 8px; justify-content: center;
+    padding: 10px; background: rgba(255,248,240,.95);
+    backdrop-filter: blur(6px);
+    border-bottom: 1px solid #f0e3d3;
+  }
+  nav button {
+    border: 0; border-radius: 999px; padding: 10px 16px;
+    font-size: .95rem; font-weight: 600; cursor: pointer;
+    background: #fff; color: var(--ink);
+    box-shadow: 0 1px 3px rgba(0,0,0,.12);
+  }
+  nav button.active { background: var(--teal); color: #fff; }
+  main { max-width: 720px; margin: 0 auto; padding: 16px; }
+  section { display: none; }
+  section.active { display: block; }
+  .card {
+    background: var(--card); border-radius: var(--radius);
+    padding: 16px; margin-bottom: 14px;
+    box-shadow: 0 2px 8px rgba(0,0,0,.07);
+    border-left: 6px solid var(--teal);
+  }
+  .card h3 { margin: 0 0 2px; font-size: 1.1rem; }
+  .where { color: var(--pink); font-size: .85rem; font-weight: 700; margin-bottom: 6px; }
+  .card p { margin: 0; color: var(--muted); }
+  .map {
+    display: inline-block; margin-top: 10px; font-size: .9rem; font-weight: 600;
+    color: var(--teal); text-decoration: none;
+  }
+
+  footer { text-align: center; color: var(--muted); font-size: .85rem; padding: 24px 16px 40px; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Miami, According to Your Driver</h1>
+  <p>My favorite spots for food, fun, and history. Ask me to take you!</p>
+</header>
+
+<nav>
+  <button class="active" data-tab="food">Food</button>
+  <button data-tab="activities">Activities</button>
+  <button data-tab="history">History</button>
+  <button data-tab="kids">For Kids</button>
+</nav>
+
+<main>
+  <section id="food" class="active"></section>
+  <section id="activities"></section>
+  <section id="history"></section>
+  <section id="kids"></section>
+</main>
+
+<footer>Want a ride to any of these spots? Just ask your driver.</footer>
+
+<script>
+const data = {
+  food: [
+    ["Versailles Restaurant", "Little Havana", "The classic Cuban spot. Try a cortadito, a Cuban sandwich, or ropa vieja. Open late."],
+    ["Joe's Stone Crab", "South Beach", "A Miami institution since 1913. Stone crab season runs mid-October to mid-May. Expect a wait."],
+    ["La Carreta", "Little Havana", "Hearty Cuban comfort food, big portions, and a walk-up coffee window."],
+    ["Zak the Baker", "Wynwood", "Fantastic bread, pastries, and sandwiches. A great breakfast or brunch stop."],
+    ["KYU", "Wynwood", "Wood-fired Asian-inspired plates made for sharing. Famous for its roasted cauliflower and a great weekend brunch."],
+    ["A Cuban coffee window", "Little Havana", "Find any walk-up ventanita on Calle Ocho and order a colada to share."]
+  ],
+  activities: [
+    ["South Beach and Ocean Drive", "Miami Beach", "Classic Miami. Walk the Art Deco strip, hit the sand, and people-watch."],
+    ["Wynwood Walls", "Wynwood", "An outdoor museum of world-class street art. The surrounding blocks are covered in murals too."],
+    ["Calle Ocho and Domino Park", "Little Havana", "Watch the domino players, grab a coffee, and listen to live music."],
+    ["Key Biscayne and Crandon Park", "Key Biscayne", "Quiet beaches, bike rentals, and a more relaxed vibe than South Beach."],
+    ["Brickell City Centre", "Brickell", "Shopping, rooftop bars, and great dining downtown."],
+    ["Bayside Marketplace", "Downtown", "Waterfront shopping and dining, plus boat tours from the marina."],
+    ["Everglades airboat tour", "West of Miami", "About 45 minutes out. Gators, wildlife, and wide-open scenery."]
+  ],
+  kids: [
+    ["Zoo Miami", "South Miami-Dade", "Huge zoo with a monorail, animal feedings, a splash pad, and a playground. Wear comfy shoes and go early."],
+    ["Frost Museum of Science", "Downtown", "Planetarium, aquarium, and hands-on exhibits all in one. Older kids love the rooftop views."],
+    ["Miami Children's Museum", "Watson Island", "Hands-on art, music, and pretend-play exhibits. A great pick for younger kids."],
+    ["Jungle Island", "Watson Island", "Parrots, lemurs, and flamingos up close in a tropical setting."],
+    ["Crandon Park Beach", "Key Biscayne", "Calm, shallow water and shady spots, so it's easier with little ones than South Beach."],
+    ["Museum of Ice Cream", "Miami", "A playful, colorful museum with lots of photo ops and sweet treats."],
+    ["Fairchild Tropical Botanic Garden", "Coral Gables", "Big open gardens to explore, with seasonal light shows at night."]
+  ],
+  history: [
+    ["Vizcaya Museum and Gardens", "Coconut Grove", "An early 1900s Italian-style bayfront estate built by James Deering. Beautiful at sunset."],
+    ["Art Deco Historic District", "South Beach", "Hundreds of pastel buildings from the 1930s and 40s. Start at the Art Deco Welcome Center."],
+    ["Freedom Tower", "Downtown", "Called the Ellis Island of the South, where thousands of Cuban refugees were processed in the 1960s."],
+    ["Miami Circle", "Brickell", "A 2,000-year-old Tequesta Native American archaeological site, right downtown."],
+    ["The Barnacle Historic State Park", "Coconut Grove", "The oldest home in Miami-Dade County still on its original site."],
+    ["Coral Castle", "Homestead", "A mysterious stone structure built by one man in the early 1900s."],
+    ["Bayfront Park", "Downtown", "A waterfront park with memorials and views of Biscayne Bay."]
+  ]
+};
+
+for (const [id, items] of Object.entries(data)) {
+  const el = document.getElementById(id);
+  el.innerHTML = items.map(([name, where, desc]) => {
+    const q = encodeURIComponent(name + " Miami FL");
+    return `<div class="card">
+      <h3>${name}</h3>
+      <div class="where">${where}</div>
+      <p>${desc}</p>
+      <a class="map" href="https://www.google.com/maps/search/?api=1&query=${q}" target="_blank" rel="noopener">Open in Maps</a>
+    </div>`;
+  }).join("");
+}
+
+document.querySelectorAll("nav button").forEach(btn => {
+  btn.addEventListener("click", () => {
+    document.querySelectorAll("nav button").forEach(b => b.classList.remove("active"));
+    document.querySelectorAll("section").forEach(s => s.classList.remove("active"));
+    btn.classList.add("active");
+    document.getElementById(btn.dataset.tab).classList.add("active");
+    window.scrollTo({top: 0, behavior: "smooth"});
+  });
+});
+</script>
+</body>
+</html>
