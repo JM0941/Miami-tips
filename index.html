@@ -33,14 +33,14 @@
   header p { margin: 0; opacity: .95; }
   nav {
     position: sticky; top: 0; z-index: 10;
-    display: flex; gap: 8px; justify-content: center;
+    display: flex; flex-wrap: wrap; gap: 8px; justify-content: center;
     padding: 10px; background: rgba(255,248,240,.95);
     backdrop-filter: blur(6px);
     border-bottom: 1px solid #f0e3d3;
   }
   nav button {
-    border: 0; border-radius: 999px; padding: 10px 16px;
-    font-size: .95rem; font-weight: 600; cursor: pointer;
+    border: 0; border-radius: 999px; padding: 8px 14px;
+    font-size: .92rem; font-weight: 600; cursor: pointer;
     background: #fff; color: var(--ink);
     box-shadow: 0 1px 3px rgba(0,0,0,.12);
   }
@@ -77,6 +77,7 @@
   <button data-tab="activities">Activities</button>
   <button data-tab="history">History</button>
   <button data-tab="kids">For Kids</button>
+  <button data-tab="nightlife">Nightlife</button>
 </nav>
 
 <main>
@@ -84,6 +85,7 @@
   <section id="activities"></section>
   <section id="history"></section>
   <section id="kids"></section>
+  <section id="nightlife"></section>
 </main>
 
 <footer>Want a ride to any of these spots? Just ask your driver.</footer>
@@ -115,6 +117,15 @@ const data = {
     ["Crandon Park Beach", "Key Biscayne", "Calm, shallow water and shady spots, so it's easier with little ones than South Beach."],
     ["Museum of Ice Cream", "Miami", "A playful, colorful museum with lots of photo ops and sweet treats."],
     ["Fairchild Tropical Botanic Garden", "Coral Gables", "Big open gardens to explore, with seasonal light shows at night."]
+  ],
+  nightlife: [
+    ["Club Space", "Downtown", "One of Miami's best-known clubs for electronic music and long, late nights."],
+    ["LIV", "Miami Beach", "Big South Beach mega-club with table service and top DJs."],
+    ["E11EVEN", "Downtown", "High-energy club with live performances that runs around the clock."],
+    ["Ball & Chain", "Little Havana", "Historic Calle Ocho spot with live Latin music and dancing. Great for a more local night."],
+    ["Sugar at EAST Miami", "Brickell", "A rooftop bar 40 floors up with skyline views. Good for cocktails before things get loud."],
+    ["1 Hotel Rooftop", "Miami Beach", "Chill rooftop lounge with ocean views and a relaxed crowd."],
+    ["Upside", "Wynwood", "New in 2026 with three bars across two floors and a covered outdoor area."]
   ],
   history: [
     ["Vizcaya Museum and Gardens", "Coconut Grove", "An early 1900s Italian-style bayfront estate built by James Deering. Beautiful at sunset."],
